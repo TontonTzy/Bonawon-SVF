@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Parish event calendar and news for St. Vincent Ferrer Parish in Bonawon, Siaton." />
+    <link rel="stylesheet" href="css/styles.css" />
+    <title>News & Events | St. Vincent Ferrer Parish</title>
+    <style>
+        .page-hero {
+            background: linear-gradient(rgba(45, 90, 61, 0.90), rgba(45, 90, 61, 0.90));
+            color: white;
+            padding: 80px 24px;
+            text-align: center;
+        }
+
+        .page-hero h1 {
+            margin: 0 0 12px 0;
+            font-size: clamp(2rem, 4vw, 3rem);
+        }
+
+        .page-hero p {
+            max-width: 720px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+        }
+
+        .calendar-section {
+            max-width: 1200px;
+            margin: 56px auto;
+            padding: 0 24px;
+        }
+
+        .calendar-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+
+        .calendar-card,
+        .event-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 28px;
+        }
+
+        .calendar-card h2,
+        .event-card h2 {
+            color: #2d5a3d;
+            margin-top: 0;
+        }
+
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .calendar-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .calendar-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .calendar-controls select {
+            border: 1px solid #d4a041;
+            background: white;
+            color: #2d5a3d;
+            border-radius: 6px;
+            padding: 10px 14px;
+            cursor: pointer;
+            font-weight: 600;
+            min-width: 140px;
+        }
+
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            text-align: center;
+        }
+
+        .day-name,
+        .day-cell {
+            padding: 10px 0;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .day-name {
+            background: #f2f2f2;
+            color: #2d5a3d;
+            font-weight: 700;
+        }
+
+        .day-cell {
+            background: #fafafa;
+            border: 1px solid #ececec;
+            min-height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .day-cell.highlight {
+            background: #fff3d8;
+            border-color: #d4a041;
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+
+        .day-cell.has-event {
+            box-shadow: inset 0 0 0 2px #d4a041;
+        }
+
+        .event-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .event-item {
+            border-left: 4px solid #d4a041;
+            background: #fafafa;
+            padding: 16px;
+            border-radius: 6px;
+        }
+
+        .event-item strong {
+            display: block;
+            margin-bottom: 6px;
+            color: #2d5a3d;
+        }
+
+        @media (max-width: 860px) {
+            .calendar-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="top-bar-item">Bonawon, Siaton, Negros Oriental</div>
+        <div class="top-bar-item">Parish Office: Wed–Mon, 8:00 AM–5:00 PM • Closed Tuesdays.</div>
+    </div>
+
+    <nav>
+        <div class="logo-section">
+            <div class="logo"><img src="images/logos/svf-bonawon-logo.png" alt="Parish Logo" class="svf-logo-img"></div>
+            <div class="parish-name">
+                <h1>St. Vincent Ferrer Bonawon Parish</h1>
+                <p>DIOCESE OF DUMAGUETE</p>
+            </div>
+        </div>
+        <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li><a href="mass-schedule.html">MASS SCHEDULE</a></li>
+            <li><a href="sacraments.html">SACRAMENTS</a></li>
+            <li><a href="ministries.html">MINISTRIES</a></li>
+            <li><a href="news.html" class="active">NEWS & EVENTS</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+        </ul>
+    </nav>
+
+    <section class="page-hero">
+        <h1>Parish Events Calendar</h1>
+        <p>View upcoming parish celebrations, fellowship days, and special community events for the month.</p>
+    </section>
+
+    <section class="calendar-section">
+        <div class="calendar-layout">
+            <div class="calendar-card">
+                <div class="calendar-header">
+                    <h2 id="calendar-title">Monthly Calendar</h2>
+                    <div class="calendar-controls">
+                        <select id="year-select" aria-label="Choose year"></select>
+                        <select id="month-select" aria-label="Choose month"></select>
+                    </div>
+                </div>
+                <div class="month-grid" id="month-grid"></div>
+            </div>
+
+            <div class="event-card">
+                <h2>Upcoming Highlights</h2>
+                <div class="event-list" id="event-list"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 St. Vincent Ferrer Parish, Bonawon, Siaton, Negros Oriental. All rights reserved.</p>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/menu.js"></script>
+    <script>
+        const monthNames = {
+            JAN: 0, FEB: 1, MAR: 2, APR: 3, MAY: 4, JUN: 5, JUL: 6, AUG: 7, SEP: 8, OCT: 9, NOV: 10, DEC: 11
+        };
+
+        function formatDateKey(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        const parishEvents = (parishData?.events || []).map(event => {
+            const monthIndex = monthNames[event.month] ?? 0;
+            const dateValue = new Date(event.year || 2026, monthIndex, event.day || 1);
+            return {
+                date: formatDateKey(dateValue),
+                title: event.title,
+                description: event.description
+            };
+        });
+
+        const monthGrid = document.getElementById('month-grid');
+        const eventList = document.getElementById('event-list');
+        const calendarTitle = document.getElementById('calendar-title');
+        const yearSelect = document.getElementById('year-select');
+        const monthSelect = document.getElementById('month-select');
+
+        let currentMonth = new Date(2026, 4, 1);
+
+        function populateYearSelect() {
+            yearSelect.innerHTML = '';
+            const years = [2025, 2026, 2027];
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                if (year === currentMonth.getFullYear()) {
+                    option.selected = true;
+                }
+                yearSelect.appendChild(option);
+            });
+        }
+
+        function populateMonthSelect() {
+            monthSelect.innerHTML = '';
+            for (let month = 0; month < 12; month++) {
+                const option = document.createElement('option');
+                option.value = month;
+                option.textContent = new Date(currentMonth.getFullYear(), month, 1).toLocaleString('en-US', { month: 'long' });
+                if (month === currentMonth.getMonth()) {
+                    option.selected = true;
+                }
+                monthSelect.appendChild(option);
+            }
+        }
+
+        function renderCalendar() {
+            const year = currentMonth.getFullYear();
+            const month = currentMonth.getMonth();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const monthLabel = currentMonth.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+
+            calendarTitle.textContent = monthLabel;
+            monthGrid.innerHTML = '';
+
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayNames.forEach(day => {
+                const cell = document.createElement('div');
+                cell.className = 'day-name';
+                cell.textContent = day;
+                monthGrid.appendChild(cell);
+            });
+
+            for (let i = 0; i < firstDay; i++) {
+                const blankCell = document.createElement('div');
+                blankCell.className = 'day-cell';
+                monthGrid.appendChild(blankCell);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const cell = document.createElement('div');
+                cell.className = 'day-cell';
+                const cellDate = new Date(year, month, day);
+                const dateKey = formatDateKey(cellDate);
+                const hasEvent = parishEvents.some(event => event.date === dateKey);
+                cell.textContent = day;
+
+                if (hasEvent) {
+                    cell.classList.add('has-event', 'highlight');
+                }
+
+                monthGrid.appendChild(cell);
+            }
+
+            populateYearSelect();
+            populateMonthSelect();
+            renderEvents();
+        }
+
+        function renderEvents() {
+            const year = currentMonth.getFullYear();
+            const month = currentMonth.getMonth();
+            const monthEvents = parishEvents.filter(event => {
+                const eventDate = new Date(event.date);
+                return eventDate.getFullYear() === year && eventDate.getMonth() === month;
+            });
+
+            eventList.innerHTML = '';
+
+            if (monthEvents.length === 0) {
+                const emptyItem = document.createElement('div');
+                emptyItem.className = 'event-item';
+                emptyItem.innerHTML = '<strong>No scheduled events</strong><span>Check back soon for parish updates.</span>';
+                eventList.appendChild(emptyItem);
+                return;
+            }
+
+            monthEvents.forEach(event => {
+                const item = document.createElement('div');
+                item.className = 'event-item';
+                const eventDate = new Date(event.date);
+                item.innerHTML = `<strong>${eventDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} • ${event.title}</strong><span>${event.description}</span>`;
+                eventList.appendChild(item);
+            });
+        }
+
+        yearSelect.addEventListener('change', (event) => {
+            currentMonth = new Date(Number(event.target.value), currentMonth.getMonth(), 1);
+            renderCalendar();
+        });
+
+        monthSelect.addEventListener('change', (event) => {
+            currentMonth = new Date(currentMonth.getFullYear(), Number(event.target.value), 1);
+            renderCalendar();
+        });
+
+        renderCalendar();
+    </script>
+</body>
+</html>

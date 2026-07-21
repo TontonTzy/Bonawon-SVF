@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Mass schedule and liturgical services at St. Vincent Ferrer Parish in Bonawon, Siaton." />
+    <link rel="stylesheet" href="css/styles.css" />
+    <title>Mass Schedule | St. Vincent Ferrer Parish</title>
+    <style>
+        .page-hero {
+            background: linear-gradient(rgba(45, 90, 61, 0.90), rgba(45, 90, 61, 0.90));
+            color: white;
+            padding: 80px 24px;
+            text-align: center;
+        }
+
+        .page-hero h1 {
+            margin: 0 0 12px 0;
+            font-size: clamp(2rem, 4vw, 3rem);
+        }
+
+        .page-hero p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+        }
+
+        .schedule-section {
+            max-width: 1200px;
+            margin: 56px auto;
+            padding: 0 24px;
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 28px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 28px;
+        }
+
+        .card h2,
+        .card h3 {
+            color: #2d5a3d;
+            margin-top: 0;
+        }
+
+        .schedule-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .schedule-item {
+            border-left: 4px solid #d4a041;
+            background: #fafafa;
+            padding: 14px 16px;
+            border-radius: 6px;
+        }
+
+        .schedule-item strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .notice {
+            background: #fffaf0;
+            border: 1px solid #edd39b;
+            border-radius: 8px;
+            padding: 16px 18px;
+            color: #5a4c22;
+            margin-top: 18px;
+        }
+
+        .service-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        .service-table th,
+        .service-table td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid #ececec;
+        }
+
+        .service-table th {
+            color: #2d5a3d;
+        }
+
+        @media (max-width: 860px) {
+            .schedule-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="top-bar-item">Bonawon, Siaton, Negros Oriental</div>
+        <div class="top-bar-item">Parish Office: Wed–Mon, 8:00 AM–5:00 PM • Closed Tuesdays.</div>
+    </div>
+
+    <nav>
+        <div class="logo-section">
+            <div class="logo"><img src="images/logos/svf-bonawon-logo.png" alt="Parish Logo" class="svf-logo-img"></div>
+            <div class="parish-name">
+                <h1>St. Vincent Ferrer Bonawon Parish</h1>
+                <p>DIOCESE OF DUMAGUETE</p>
+            </div>
+        </div>
+        <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li><a href="mass-schedule.html" class="active">MASS SCHEDULE</a></li>
+            <li><a href="sacraments.html">SACRAMENTS</a></li>
+            <li><a href="ministries.html">MINISTRIES</a></li>
+            <li><a href="news.html">NEWS & EVENTS</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+        </ul>
+    </nav>
+
+    <section class="page-hero">
+        <h1>Mass Schedule</h1>
+        <p>Join us in worship through our regular liturgical services, daily prayer, and special parish celebrations.</p>
+    </section>
+
+    <section class="schedule-section">
+        <div class="schedule-grid">
+            <div class="card">
+                <h2>Weekly Schedule</h2>
+                <div class="schedule-list">
+                    <div class="schedule-item">
+                        <strong>Monday to Friday</strong>
+                        <span>6:00 AM • 12:00 NN • 5:00 PM</span>
+                    </div>
+                    <div class="schedule-item">
+                        <strong>Tuesday</strong>
+                        <span>No Mass • Parish Office Closed</span>
+                    </div>
+                    <div class="schedule-item">
+                        <strong>Saturday</strong>
+                        <span>6:00 AM • 5:00 PM Anticipated Mass (Cabangahan Chapel)</span>
+                    </div>
+                    <div class="schedule-item">
+                        <strong>Sunday</strong>
+                        <span>5:00 AM • 7:00 AM • 9:00 AM • 10:00 AM (Giligaon Chapel)</span>
+                    </div>
+                    <div class="schedule-item">
+                        <strong>Confession</strong>
+                        <span>Friday • 4:00 PM</span>
+                    </div>
+                </div>
+                <div class="notice">
+                    Please arrive 10–15 minutes before the Mass time for seating and prayer preparation.
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Liturgical Services</h2>
+                <table class="service-table">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Day</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Daily Mass</td>
+                            <td>Mon–Fri</td>
+                            <td>6:00 AM</td>
+                        </tr>
+                        <tr>
+                            <td>Noon Mass</td>
+                            <td>Mon–Fri</td>
+                            <td>12:00 NN</td>
+                        </tr>
+                        <tr>
+                            <td>Evening Mass</td>
+                            <td>Mon–Fri</td>
+                            <td>5:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Anticipated Mass</td>
+                            <td>Saturday</td>
+                            <td>5:00 PM • Cabangahan Chapel</td>
+                        </tr>
+                        <tr>
+                            <td>Sunday Mass</td>
+                            <td>Sunday</td>
+                            <td>5:00 AM / 7:00 AM / 9:00 AM / 10:00 AM (Giligaon Chapel)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 St. Vincent Ferrer Parish, Bonawon, Siaton, Negros Oriental. All rights reserved.</p>
+    </footer>
+
+    <script src="js/menu.js"></script>
+</body>
+</html>

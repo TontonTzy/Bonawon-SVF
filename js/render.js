@@ -26,8 +26,10 @@ function renderEvents() {
     const container = document.querySelector('.events-box');
     if (!container) return;
 
-    let html = '<h2>Upcoming Parish Events</h2>';
-    parishData.events.forEach(item => {
+    const highlights = parishData.events.slice(0, 3);
+    let html = '<h2>Upcoming Parish Highlights</h2>';
+
+    highlights.forEach(item => {
         html += `
             <div class="event-item">
                 <div class="event-label">${item.category}</div>
@@ -42,14 +44,15 @@ function renderEvents() {
                         <p style="margin: 0; color: #666; font-size: 0.9rem;">${item.description}</p>
                         <div class="event-details">
                             <span>⏰ ${item.time}</span>
-                            <span>📍 ${item.location}</span>
+                            <span>${item.location}</span>
                         </div>
                     </div>
                 </div>
             </div>
         `;
     });
-    html += '<a href="#" class="view-all">VIEW ALL EVENTS →</a>';
+
+    html += '<a href="news.html" class="view-all">VIEW FULL CALENDAR →</a>';
     container.innerHTML = html;
 }
 
