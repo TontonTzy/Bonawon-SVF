@@ -23,7 +23,7 @@ function showNotification(message, type = 'success') {
 
 // Handle contact form submission
 document.addEventListener('DOMContentLoaded', function() {
-    const contactForm = document.querySelector('.contact-form');
+    const contactForm = document.getElementById('contact-form') || document.querySelector('.contact-form');
     const submitBtn = document.querySelector('.form-submit');
     
     if (contactForm) {
@@ -33,16 +33,24 @@ document.addEventListener('DOMContentLoaded', function() {
             // Disable button during submission
             submitBtn.disabled = true;
             submitBtn.textContent = 'SENDING...';
-            
+            const localTime = new Date().toLocaleTimeString();
             // Get form values
             const formData = {
                 from_name: document.getElementById('name').value,
                 from_email: document.getElementById('email').value,
+                time: localTime,
                 phone: document.getElementById('phone').value,
                 subject: document.getElementById('subject').value,
                 message: document.getElementById('message').value
             };
             
+            if (typeof emailjs === 'undefined') {
+                showNotification('✗ Email service could not be loaded. Please refresh the page and try again.', 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'SEND MESSAGE';
+                return;
+            }
+
             // Send email using EmailJS
             emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, formData)
                 .then(function(response) {

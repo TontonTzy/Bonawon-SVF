@@ -7,7 +7,9 @@ function renderAnnouncements() {
     parishData.announcements.forEach(item => {
         html += `
             <div class="announcement-item">
-                <div class="announcement-image"></div>
+                <div class="announcement-image">
+                    <img src="${item.image}" alt="${item.title}" />
+                </div>
                 <div class="announcement-content">
                     <h3>${item.category}</h3>
                     <h4>${item.title}</h4>
