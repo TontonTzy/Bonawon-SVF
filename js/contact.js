@@ -2,7 +2,7 @@
 // Replace with your actual EmailJS credentials
 const EMAILJS_SERVICE_ID = "service_38916nj";
 const EMAILJS_TEMPLATE_ID = "template_0zk8u6q";
-const EMAILJS_PUBLIC_KEY = "j9xYKzDhRyeVdUm-6";
+const EMAILJS_PUBLIC_KEY = "qgSwiBrJ6hxF88T_p";
 
 // Initialize EmailJS
 emailjs.init(EMAILJS_PUBLIC_KEY);
