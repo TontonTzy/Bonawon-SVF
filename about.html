@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="About the Parish of St. Vincent Ferrer in Bonawon, Siaton, Negros Oriental." />
+    <link rel="stylesheet" href="css/styles.css" />
+    <title>About Us | St. Vincent Ferrer Parish</title>
+    <style>
+        .about-hero {
+            background: linear-gradient(rgba(45, 90, 61, 0.85), rgba(45, 90, 61, 0.85)),
+                        url("https://images.unsplash.com/photo-1504198266158-93030b3e3d3d?auto=format&fit=crop&w=1200&q=80") center/cover;
+            color: white;
+            padding: 80px 24px;
+            text-align: center;
+        }
+
+        .about-hero h1 {
+            font-size: 2.5rem;
+            margin: 0 0 16px 0;
+        }
+
+        .about-hero p {
+            font-size: 1.05rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .about-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 24px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #2d5a3d;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .section-content {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .section-content p {
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+
+        .section-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .value-card {
+            background: #f9f9f9;
+            padding: 24px;
+            border-radius: 8px;
+            border-left: 4px solid #d4a041;
+        }
+
+        .value-card h3 {
+            color: #2d5a3d;
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+
+        .value-card p {
+            margin: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .leadership-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .leadership-card {
+            background: #f9f9f9;
+            padding: 24px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .leadership-card .avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #2d5a3d, #d4a041);
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+
+        .leadership-card h3 {
+            color: #2d5a3d;
+            margin: 12px 0 4px 0;
+        }
+
+        .leadership-card p {
+            margin: 0;
+            color: #d4a041;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .fr-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 32px;
+        }
+
+        .timeline-item .year {
+            width: 100px;
+            font-weight: 700;
+            color: #d4a041;
+            font-size: 1.2rem;
+        }
+
+        .timeline-item .content {
+            flex: 1;
+            border-left: 3px solid #d4a041;
+            padding-left: 24px;
+        }
+
+        .timeline-item h4 {
+            margin: 0 0 8px 0;
+            color: #2d5a3d;
+        }
+
+        .timeline-item p {
+            margin: 0;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .values-grid,
+            .leadership-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-content {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="top-bar-item">📍 Bonawon, Siaton, Negros Oriental</div>
+        <div class="top-bar-item">🕐 Parish Office: Wed–Mon, 8:00 AM–5:00 PM • Closed Tuesdays.</div>
+    </div>
+
+    <nav>
+        <div class="logo-section">
+            <div class="logo"><img src="images/logos/svf-bonawon-logo.png" alt="Parish Logo" class="svf-logo-img"></div>
+            <div class="parish-name">
+                <h1>St. Vincent Ferrer Parish</h1>
+                <p>DIOCESE OF DUMAGUETE</p>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about.html" class="active">ABOUT</a></li>
+            <li><a href="mass-schedule.html">MASS SCHEDULE</a></li>
+            <li><a href="sacraments.html">SACRAMENTS</a></li>
+            <li><a href="ministries.html">MINISTRIES</a></li>
+            <li><a href="news.html">NEWS & EVENTS</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+        </ul>
+    </nav>
+
+    <section class="about-hero">
+        <h1>About Our Parish</h1>
+        <p>Learn about the rich history and mission of St. Vincent Ferrer Parish and how we serve our community.</p>
+    </section>
+
+    <section class="about-section">
+        <div class="section-title">Our History</div>
+        <div class="section-content">
+            <p>St. Vincent Ferrer Parish in Bonawon, Siaton, Negros Oriental has been a beacon of faith and community for generations. Our parish stands as a testament to the devotion of our people and the guidance of Saint Vincent Ferrer, the patron saint of our community.</p>
+            <p>From its founding to the present day, our parish has been dedicated to serving the spiritual and material needs of our parishioners, fostering a strong sense of community, and promoting the values of the Catholic faith.</p>
+            <p>We continue to grow and evolve, welcoming new members and deepening our commitment to Christ and to one another.</p>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="section-title">Our Mission & Vision</div>
+        <div class="section-content">
+            <div class="values-grid">
+                <div class="value-card">
+                    <h3>Our Mission</h3>
+                    <p>To proclaim the Gospel of Jesus Christ and to serve as a welcoming community that nurtures faith, hope, and love through prayer, sacraments, and service to all people.</p>
+                </div>
+                <div class="value-card">
+                    <h3>Our Vision</h3>
+                    <p>To be a vibrant parish community rooted in faith, committed to spiritual growth, and actively engaged in the transformation of society according to Gospel values.</p>
+                </div>
+                <div class="value-card">
+                    <h3>Our Values</h3>
+                    <p>Faith in Christ • Compassion & Service • Family & Community • Holiness & Prayer • Hospitality & Welcome</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="section-title">Parish Leadership</div>
+        <div class="section-content">
+            <div class="leadership-grid">
+                <div class="leadership-card">
+                    <div class="avatar"><img src="images/fr. bomediano.png" class="fr-image" alt="Parish Priest"></div>
+                    <h3>Parish Priest</h3>
+                    <p>Rev. Fr. John Mark G. Bomediano</p>
+                </div>
+                <div class="leadership-card">
+                    <div class="avatar">📖</div>
+                    <h3>Pastoral Associate</h3>
+                    <p>[Name]</p>
+                </div>
+                <div class="leadership-card">
+                    <div class="avatar">👥</div>
+                    <h3>Parish Council President</h3>
+                    <p>[Name]</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="section-title">Our Journey</div>
+        <div class="section-content">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="year">[Year]</div>
+                    <div class="content">
+                        <h4>Parish Foundation</h4>
+                        <p>St. Vincent Ferrer Parish was established to serve the faithful of Bonawon and surrounding communities.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">[Year]</div>
+                    <div class="content">
+                        <h4>Church Building</h4>
+                        <p>The beautiful church structure was completed, becoming a landmark in our community.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">[Year]</div>
+                    <div class="content">
+                        <h4>Centennial Celebration</h4>
+                        <p>The parish celebrated significant milestones and achievements throughout its ministry.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">Today</div>
+                    <div class="content">
+                        <h4>Serving Our Community</h4>
+                        <p>Continuing our mission to proclaim Christ and serve all people with love and compassion.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 St. Vincent Ferrer Parish, Bonawon, Siaton, Negros Oriental. All rights reserved.</p>
+    </footer>
+</body>
+</html>
