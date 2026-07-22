@@ -1,6 +1,10 @@
 <?php
 // Centralized Database Configuration for Local XAMPP or Aiven Cloud MySQL
+require_once __DIR__ . '/env.php';
 
+if (!defined('API_REQUEST')) {
+    define('API_REQUEST', true);
+}
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");

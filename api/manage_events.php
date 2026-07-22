@@ -2,6 +2,8 @@
 // API Endpoint: /api/manage_events.php
 // Supports POST (create), PUT (update), DELETE (delete) for events
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/auth_utils.php';
+require_login();
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -107,23 +109,46 @@ if ($method === 'POST') {
         echo json_encode(["status" => "error", "message" => "Failed to update event: " . $e->getMessage()]);
     }
 
-} elseif ($method === 'DELETE') {
-    // DELETE EVENT
-    $id = intval($input['id'] ?? $_GET['id'] ?? 0);
-    if ($id <= 0 && isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
-        $override = strtoupper(trim($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']));
-        if ($override === 'DELETE') {
-            $raw = file_get_contents('php://input');
-            $decoded = json_decode($raw, true);
-            $id = intval($decoded['id'] ?? $id);
-        }
-    }
+} elseif ($method === 'POST' && (strtolower(trim($_POST['action'] ?? $input['action'] ?? '')) === 'delete')) {
+        // DELETE EVENT via POST fallback
+        $id = intval($_POST['id'] ?? $input['id'] ?? $_REQUEST['id'] ?? 0);
 
-    if ($id <= 0) {
-        http_response_code(400);
-        echo json_encode(["status" => "error", "message" => "Valid Event ID is required."]);
-        exit();
-    }
+        if ($id <= 0) {
+            http_response_code(400);
+            echo json_encode(["status" => "error", "message" => "Valid Event ID is required."]);
+            exit();
+        }
+
+        try {
+            $stmt = $pdo->prepare("DELETE FROM events WHERE id = :id");
+            $stmt->execute([':id' => $id]);
+
+            echo json_encode([
+                "status" => "success",
+                "message" => "Event deleted successfully"
+            ]);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(["status" => "error", "message" => "Failed to delete event: " . $e->getMessage()]);
+        }
+
+    } elseif ($method === 'DELETE') {
+        // DELETE EVENT
+        $id = intval($input['id'] ?? $_GET['id'] ?? $_REQUEST['id'] ?? 0);
+        if ($id <= 0 && isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
+            $override = strtoupper(trim($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']));
+            if ($override === 'DELETE') {
+                $raw = file_get_contents('php://input');
+                $decoded = json_decode($raw, true);
+                $id = intval($decoded['id'] ?? $id);
+            }
+        }
+
+        if ($id <= 0) {
+            http_response_code(400);
+            echo json_encode(["status" => "error", "message" => "Valid Event ID is required."]);
+            exit();
+        }
 
     try {
         $stmt = $pdo->prepare("DELETE FROM events WHERE id = :id");

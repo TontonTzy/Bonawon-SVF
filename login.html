@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login | St. Vincent Ferrer Parish</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+        body { background: #f2f2f2; }
+        .login-wrapper { max-width: 440px; margin: 80px auto; padding: 28px; background: white; border-radius: 18px; box-shadow: 0 18px 50px rgba(0,0,0,0.12); }
+        .login-header { text-align: center; margin-bottom: 24px; }
+        .login-header h1 { margin: 0; color: #2d5a3d; font-size: 2rem; }
+        .login-header p { margin: 8px 0 0; color: #5a5a5a; }
+        .login-form { display: grid; gap: 18px; }
+        .form-group label { font-weight: 600; color: #2d5a3d; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px; }
+        .login-input { width: 100%; padding: 14px 16px; border: 1px solid #ccc; border-radius: 10px; font-size: 1rem; }
+        .password-field { position: relative; }
+        .password-toggle { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); border: none; background: transparent; color: #2d5a3d; cursor: pointer; font-weight: 700; padding: 0; }
+        .login-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+        .login-actions label { display: flex; align-items: center; gap: 8px; font-size: 0.95rem; color: #444; }
+        .btn-login { width: 100%; padding: 14px 18px; border: none; border-radius: 10px; background: #2d5a3d; color: white; font-weight: 700; font-size: 1rem; cursor: pointer; transition: background 0.2s ease; }
+        .btn-login:hover { background: #1e3f2a; }
+        .login-message { min-height: 24px; font-size: 0.95rem; color: #d9534f; }
+        .login-note { color: #666; font-size: 0.9rem; text-align: center; }
+        @media (max-width: 520px) { .login-wrapper { margin: 40px 16px; } }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="login-header">
+            <h1>Admin Login</h1>
+            <p>Secure access for parish administrators.</p>
+        </div>
+        <form id="login-form" class="login-form" autocomplete="off">
+            <div class="form-group">
+                <label for="login-username">Username or Email</label>
+                <input id="login-username" name="username" type="text" class="login-input" placeholder="Enter username or email" required />
+            </div>
+            <div class="form-group password-field">
+                <label for="login-password">Password</label>
+                <input id="login-password" name="password" type="password" class="login-input" placeholder="Enter password" required />
+                <button type="button" id="toggle-password" class="password-toggle">Show</button>
+            </div>
+            <div class="login-actions">
+                <label><input id="remember-me" type="checkbox" /> Remember me</label>
+            </div>
+            <button type="submit" id="login-submit" class="btn-login">Sign In</button>
+            <div id="login-message" class="login-message"></div>
+        </form>
+        <p class="login-note">Use your admin credentials to access the protected parish management portal.</p>
+    </div>
+    <script src="js/auth.js"></script>
+</body>
+</html>

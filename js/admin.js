@@ -203,11 +203,14 @@ async function deleteEvent(id) {
         return;
     }
 
+    const formData = new FormData();
+    formData.append('action', 'delete');
+    formData.append('id', id);
+
     try {
         const { ok, data: result } = await safeFetchJson('api/manage_events.php', {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: id })
+            method: 'POST',
+            body: formData
         });
 
         if (ok && result.status === 'success') {
@@ -378,7 +381,7 @@ function escapeHtml(str) {
     return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     checkEnvironment();
     loadAdminEvents();
     loadAdminAnnouncements();
@@ -388,6 +391,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const annForm = document.getElementById('ann-form');
     if (annForm) annForm.addEventListener('submit', handleAnnSubmit);
+
+    // Show admin accounts only for super_admin users
+    try {
+        const current = await getCurrentAdmin();
+        if (current && current.role === 'super_admin') {
+            const adminBtn = document.getElementById('admin-accounts-tab-btn');
+            const adminTab = document.getElementById('admin-accounts-tab');
+            if (adminBtn) adminBtn.style.display = 'inline-flex';
+            if (adminTab) adminTab.style.display = 'block';
+        }
+    } catch (err) {
+        console.warn('Unable to determine current admin role:', err.message);
+    }
 
     // Image preview handler
     const fileInput = document.getElementById('ann-image-file');
@@ -408,3 +424,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+async function getCurrentAdmin() {
+    const { ok, data } = await safeFetchJson('api/current_admin.php');
+    if (ok && data.status === 'success') {
+        return data.data;
+    }
+    return null;
+}

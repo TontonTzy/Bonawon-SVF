@@ -31,7 +31,11 @@ function resolveApiUrl(path) {
 
 async function safeFetch(url, options = {}) {
     const requestUrl = resolveApiUrl(url);
-    const response = await fetch(requestUrl, options);
+    const headers = options.headers || {};
+    if (typeof window !== 'undefined' && window.CSRF_TOKEN && options.method && options.method.toUpperCase() !== 'GET') {
+        headers['X-CSRF-Token'] = window.CSRF_TOKEN;
+    }
+    const response = await fetch(requestUrl, { ...options, headers });
     const text = await response.text();
 
     if (!response.ok) {
@@ -49,6 +53,10 @@ async function safeFetch(url, options = {}) {
         throw e;
     }
     return { ok: response.ok, data: data };
+}
+
+async function safeFetchJson(url, options = {}) {
+    return safeFetch(url, options);
 }
 
 async function fetchAnnouncements() {

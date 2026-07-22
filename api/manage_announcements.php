@@ -2,6 +2,8 @@
 // API Endpoint: /api/manage_announcements.php
 // Handles Announcement Creation, Image Uploads, Updates, and Deletions
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/auth_utils.php';
+require_login();
 
 $target_dir = __DIR__ . '/../images/uploads/';
 if (!file_exists($target_dir)) {
@@ -22,8 +24,22 @@ if ($method === 'POST') {
         }
 
         try {
+            $stmt = $pdo->prepare("SELECT image FROM announcements WHERE id = :id");
+            $stmt->execute([':id' => $id]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $imagePath = $row['image'] ?? '';
+
             $stmt = $pdo->prepare("DELETE FROM announcements WHERE id = :id");
             $stmt->execute([':id' => $id]);
+
+            if ($imagePath && strpos($imagePath, 'images/uploads/') === 0) {
+                $imageFile = realpath(__DIR__ . '/../' . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $imagePath));
+                $uploadsDir = realpath(__DIR__ . '/../images/uploads');
+                if ($imageFile && $uploadsDir && str_starts_with($imageFile, $uploadsDir) && file_exists($imageFile)) {
+                    @unlink($imageFile);
+                }
+            }
+
             echo json_encode(["status" => "success", "message" => "Announcement deleted successfully"]);
         } catch (Exception $e) {
             http_response_code(500);

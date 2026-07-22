@@ -44,3 +44,24 @@ CREATE TABLE IF NOT EXISTS `contact_messages` (
     `status` ENUM('unread', 'read', 'archived') DEFAULT 'unread',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 4. Admin Users Table
+CREATE TABLE IF NOT EXISTS `admin_users` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `first_name` VARCHAR(100) NOT NULL,
+    `last_name` VARCHAR(100) NOT NULL,
+    `username` VARCHAR(100) NOT NULL,
+    `email` VARCHAR(255) NOT NULL,
+    `password_hash` VARCHAR(255) NOT NULL,
+    `profile_image` VARCHAR(500) DEFAULT NULL,
+    `role` ENUM('admin', 'super_admin') NOT NULL DEFAULT 'admin',
+    `status` ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
+    `last_login_at` DATETIME DEFAULT NULL,
+    `failed_login_attempts` INT NOT NULL DEFAULT 0,
+    `locked_until` DATETIME DEFAULT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `deleted_at` DATETIME DEFAULT NULL,
+    UNIQUE KEY `uniq_admin_username` (`username`),
+    UNIQUE KEY `uniq_admin_email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
