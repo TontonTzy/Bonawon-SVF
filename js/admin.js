@@ -43,6 +43,21 @@ function showToast(message, isError = false) {
     }, 4500);
 }
 
+async function safeFetchJson(url, options = {}) {
+    const response = await fetch(url, options);
+    const text = await response.text();
+    let data;
+    try {
+        data = JSON.parse(text);
+    } catch (e) {
+        if (text.trim().startsWith('<?php') || text.includes('<?php')) {
+            throw new Error('Your current server (e.g. Live Server) is serving un-executed PHP code. Please open http://localhost:8000/admin.html in your browser URL bar.');
+        }
+        throw new Error(`Response is not valid JSON: ${text.slice(0, 120)}`);
+    }
+    return { ok: response.ok, data: data };
+}
+
 // ----------------- EVENTS CRUD ----------------- //
 
 async function loadAdminEvents() {
@@ -50,10 +65,9 @@ async function loadAdminEvents() {
     tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #888;">Loading events from database...</td></tr>';
 
     try {
-        const response = await fetch('api/events.php');
-        const result = await response.json();
+        const { ok, data: result } = await safeFetchJson('api/events.php');
 
-        if (response.ok && result.status === 'success' && Array.isArray(result.data)) {
+        if (ok && result.status === 'success' && Array.isArray(result.data)) {
             loadedEvents = result.data;
             renderEventsTable(loadedEvents);
         } else {
@@ -153,14 +167,13 @@ async function handleEventSubmit(e) {
     };
 
     try {
-        const response = await fetch('api/manage_events.php', {
+        const { ok, data: result } = await safeFetchJson('api/manage_events.php', {
             method: isEdit ? 'PUT' : 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
 
-        const result = await response.json();
-        if (response.ok && result.status === 'success') {
+        if (ok && result.status === 'success') {
             showToast(isEdit ? 'Event updated successfully!' : 'New event created successfully!');
             resetEventForm();
             loadAdminEvents();
@@ -181,14 +194,13 @@ async function deleteEvent(id) {
     }
 
     try {
-        const response = await fetch('api/manage_events.php', {
+        const { ok, data: result } = await safeFetchJson('api/manage_events.php', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: id })
         });
 
-        const result = await response.json();
-        if (response.ok && result.status === 'success') {
+        if (ok && result.status === 'success') {
             showToast('Event deleted from database!');
             loadAdminEvents();
         } else {
@@ -206,10 +218,9 @@ async function loadAdminAnnouncements() {
     tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #888;">Loading announcements...</td></tr>';
 
     try {
-        const response = await fetch('api/announcements.php');
-        const result = await response.json();
+        const { ok, data: result } = await safeFetchJson('api/announcements.php');
 
-        if (response.ok && result.status === 'success' && Array.isArray(result.data)) {
+        if (ok && result.status === 'success' && Array.isArray(result.data)) {
             loadedAnnouncements = result.data;
             renderAnnTable(loadedAnnouncements);
         } else {
@@ -305,13 +316,12 @@ async function handleAnnSubmit(e) {
     }
 
     try {
-        const response = await fetch('api/manage_announcements.php', {
+        const { ok, data: result } = await safeFetchJson('api/manage_announcements.php', {
             method: 'POST',
             body: formData
         });
 
-        const result = await response.json();
-        if (response.ok && result.status === 'success') {
+        if (ok && result.status === 'success') {
             showToast(id ? 'Announcement updated!' : 'Announcement created successfully!');
             resetAnnForm();
             loadAdminAnnouncements();
@@ -336,13 +346,12 @@ async function deleteAnn(id) {
     formData.append('id', id);
 
     try {
-        const response = await fetch('api/manage_announcements.php', {
+        const { ok, data: result } = await safeFetchJson('api/manage_announcements.php', {
             method: 'POST',
             body: formData
         });
 
-        const result = await response.json();
-        if (response.ok && result.status === 'success') {
+        if (ok && result.status === 'success') {
             showToast('Announcement deleted!');
             loadAdminAnnouncements();
         } else {
