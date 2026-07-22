@@ -15,7 +15,7 @@ function checkEnvironment() {
             warning.style.borderRadius = '8px';
             warning.style.fontWeight = 'bold';
             warning.style.fontSize = '0.95rem';
-            warning.innerHTML = '⚠️ NOTICE: You opened this page directly as a local file (file:///).<br>To connect to your XAMPP PHP & MySQL server, please open: <a href="http://localhost/web/admin.html" style="color: #fff; text-decoration: underline;">http://localhost/web/admin.html</a> in your browser address bar.';
+            warning.innerHTML = '⚠️ NOTICE: You opened this page directly as a static file (file:///).<br>To run PHP and connect to your Aiven database, start PHP server (e.g. <code>C:\\xampp\\php\\php.exe -S localhost:8000</code>) and open: <a href="http://localhost:8000/admin.html" style="color: #fff; text-decoration: underline;">http://localhost:8000/admin.html</a>';
             header.appendChild(warning);
         }
     }
@@ -62,7 +62,7 @@ async function loadAdminEvents() {
         }
     } catch (err) {
         if (window.location.protocol === 'file:') {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #d9534f; font-weight: bold;">⚠️ Opened via file:// protocol. Please navigate to <a href="http://localhost/web/admin.html">http://localhost/web/admin.html</a></td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #d9534f; font-weight: bold;">⚠️ Opened via file:// protocol. Please serve via PHP server (e.g. <code>http://localhost:8000/admin.html</code>)</td></tr>';
         } else {
             tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: #d9534f; font-weight: bold;">⚠️ Cannot reach API: ${escapeHtml(err.message)}</td></tr>`;
         }
@@ -127,7 +127,7 @@ async function handleEventSubmit(e) {
     e.preventDefault();
 
     if (window.location.protocol === 'file:') {
-        showToast('You must access the admin page via http://localhost/web/admin.html to save changes to MySQL.', true);
+        showToast('Please open the page via local web server (e.g. http://localhost:8000/admin.html) to save changes.', true);
         return;
     }
 
@@ -176,7 +176,7 @@ async function deleteEvent(id) {
     if (!confirm('Are you sure you want to delete this event from the database?')) return;
 
     if (window.location.protocol === 'file:') {
-        showToast('You must access the admin page via http://localhost/web/admin.html to delete items.', true);
+        showToast('Please open the page via local web server (e.g. http://localhost:8000/admin.html) to delete items.', true);
         return;
     }
 
@@ -285,7 +285,7 @@ async function handleAnnSubmit(e) {
     e.preventDefault();
 
     if (window.location.protocol === 'file:') {
-        showToast('You must access the admin page via http://localhost/web/admin.html to upload and save to MySQL.', true);
+        showToast('Please open the page via local web server (e.g. http://localhost:8000/admin.html) to upload and save.', true);
         return;
     }
 
@@ -327,7 +327,7 @@ async function deleteAnn(id) {
     if (!confirm('Are you sure you want to delete this announcement?')) return;
 
     if (window.location.protocol === 'file:') {
-        showToast('You must access the admin page via http://localhost/web/admin.html to delete items.', true);
+        showToast('Please open the page via local web server (e.g. http://localhost:8000/admin.html) to delete items.', true);
         return;
     }
 
