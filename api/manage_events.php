@@ -110,6 +110,14 @@ if ($method === 'POST') {
 } elseif ($method === 'DELETE') {
     // DELETE EVENT
     $id = intval($input['id'] ?? $_GET['id'] ?? 0);
+    if ($id <= 0 && isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
+        $override = strtoupper(trim($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']));
+        if ($override === 'DELETE') {
+            $raw = file_get_contents('php://input');
+            $decoded = json_decode($raw, true);
+            $id = intval($decoded['id'] ?? $id);
+        }
+    }
 
     if ($id <= 0) {
         http_response_code(400);
