@@ -44,14 +44,24 @@ function showToast(message, isError = false) {
 }
 
 async function safeFetchJson(url, options = {}) {
-    const response = await fetch(url, options);
+    const normalizedUrl = typeof isGitHubPages === 'function' && isGitHubPages() && url.endsWith('.php')
+        ? url.replace(/\.php$/i, '.json')
+        : url;
+    const requestUrl = typeof resolveApiUrl === 'function' ? resolveApiUrl(normalizedUrl) : normalizedUrl;
+    const response = await fetch(requestUrl, options);
     const text = await response.text();
+
+    if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${text.slice(0, 120)}`);
+    }
+
     let data;
     try {
         data = JSON.parse(text);
     } catch (e) {
-        if (text.trim().startsWith('<?php') || text.includes('<?php')) {
-            throw new Error('Your current server (e.g. Live Server) is serving un-executed PHP code. Please open http://localhost:8000/admin.html in your browser URL bar.');
+        const trimmed = text.trim();
+        if (trimmed.startsWith('<?php') || trimmed.includes('<?php') || trimmed.startsWith('<!DOCTYPE') || trimmed.startsWith('<html')) {
+            throw new Error('The admin API is returning HTML or PHP source instead of JSON. Please open the admin page through http://localhost:8000/admin.html.');
         }
         throw new Error(`Response is not valid JSON: ${text.slice(0, 120)}`);
     }
@@ -140,8 +150,8 @@ function resetEventForm() {
 async function handleEventSubmit(e) {
     e.preventDefault();
 
-    if (window.location.protocol === 'file:') {
-        showToast('Please open the page via local web server (e.g. http://localhost:8000/admin.html) to save changes.', true);
+    if (window.location.protocol === 'file:' || (typeof isGitHubPages === 'function' && isGitHubPages())) {
+        showToast('This GitHub Pages deployment is static, so event changes cannot be saved here. Use a PHP-enabled host for admin updates.', true);
         return;
     }
 
@@ -295,8 +305,8 @@ function resetAnnForm() {
 async function handleAnnSubmit(e) {
     e.preventDefault();
 
-    if (window.location.protocol === 'file:') {
-        showToast('Please open the page via local web server (e.g. http://localhost:8000/admin.html) to upload and save.', true);
+    if (window.location.protocol === 'file:' || (typeof isGitHubPages === 'function' && isGitHubPages())) {
+        showToast('This GitHub Pages deployment is static, so announcement changes cannot be saved here. Use a PHP-enabled host for admin updates.', true);
         return;
     }
 

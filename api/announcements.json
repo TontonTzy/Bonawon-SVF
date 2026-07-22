@@ -1,0 +1,30 @@
+{
+  "status": "success",
+  "count": 3,
+  "data": [
+    {
+      "id": 1,
+      "title": "Join us for Daily Rosary this May",
+      "category": "PARISH ANNOUNCEMENT",
+      "description": "We invite all parishioners to pray the Holy Rosary every day this May at the parish church.",
+      "image": "images/mamamarylindogon.jpg",
+      "link": "#"
+    },
+    {
+      "id": 2,
+      "title": "Parish Pastoral Council Meeting",
+      "category": "PARISH ANNOUNCEMENT",
+      "description": "Monthly meeting of all PPC officers, ministry heads, and BEC leaders at the Parish Hall.",
+      "image": "images/St. Vincent Ferrer Parish - Bonawon, Siaton, Negros Oriental.png",
+      "link": "#"
+    },
+    {
+      "id": 3,
+      "title": "Sacrament of Confirmation Registration",
+      "category": "SACRAMENTAL ANNOUNCEMENT",
+      "description": "Registration for the upcoming Sacrament of Confirmation is now open at the Parish Office.",
+      "image": "images/logos/svf-bonawon-logo.png",
+      "link": "#"
+    }
+  ]
+}
