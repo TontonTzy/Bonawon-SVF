@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parish Admin Portal | St. Vincent Ferrer Parish</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+        .admin-header {
+            background: linear-gradient(rgba(45, 90, 61, 0.95), rgba(45, 90, 61, 0.95));
+            color: white;
+            padding: 40px 24px;
+            text-align: center;
+        }
+
+        .admin-header h1 {
+            margin: 0 0 8px 0;
+            font-size: 2rem;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .admin-nav-tabs {
+            display: flex;
+            gap: 12px;
+            border-bottom: 2px solid #e2ded4;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: #f4f1e7;
+            border: none;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            color: #2d5a3d;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background: #2d5a3d;
+            color: #ffffff;
+            box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .admin-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .admin-card h2 {
+            color: #2d5a3d;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #2d5a3d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px 14px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2d5a3d;
+            box-shadow: 0 0 0 3px rgba(45, 90, 61, 0.15);
+        }
+
+        .btn-submit {
+            background: #2d5a3d;
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background: #1e3f2a;
+        }
+
+        .btn-cancel {
+            background: #888;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .data-table-wrapper {
+            overflow-x: auto;
+        }
+
+        table.admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        table.admin-table th {
+            background: #f4f1e7;
+            color: #2d5a3d;
+            padding: 12px 14px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e0dacb;
+        }
+
+        table.admin-table td {
+            padding: 14px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+            vertical-align: top;
+        }
+
+        table.admin-table tr:hover {
+            background: #fafafa;
+        }
+
+        .badge-category {
+            background: #eaf2eb;
+            color: #2d5a3d;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-action-edit {
+            background: #d4a041;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .btn-action-delete {
+            background: #d9534f;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 14px 24px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 999;
+            display: none;
+        }
+
+        .toast-success { background: #2d5a3d; }
+        .toast-error { background: #d9534f; }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="top-bar-item">Bonawon, Siaton, Negros Oriental</div>
+        <div class="top-bar-item">Parish Database Administration System</div>
+    </div>
+
+    <nav>
+        <div class="logo-section">
+            <div class="logo"><img src="images/logos/svf-bonawon-logo.png" alt="Parish Logo" class="svf-logo-img"></div>
+            <div class="parish-name">
+                <h1>St. Vincent Ferrer Bonawon Parish</h1>
+                <p>ADMIN CONTROL PANEL</p>
+            </div>
+        </div>
+        <button class="menu-toggle" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+        <ul class="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="news.html">NEWS & EVENTS</a></li>
+            <li><a href="admin.html" class="active">ADMIN PORTAL</a></li>
+        </ul>
+    </nav>
+
+    <section class="admin-header">
+        <h1>Parish Content & Events Management</h1>
+        <p>Directly add, update, or remove parish events and announcements from your MySQL database.</p>
+    </section>
+
+    <div class="admin-container">
+        <div class="admin-nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('events-tab')">📅 Manage Events</button>
+            <button class="tab-btn" onclick="switchTab('announcements-tab')">📢 Manage Announcements</button>
+        </div>
+
+        <!-- EVENTS TAB -->
+        <div id="events-tab" class="tab-content active">
+            <div class="admin-card">
+                <h2 id="event-form-title">Add New Parish Event</h2>
+                <form id="event-form">
+                    <input type="hidden" id="event-id" value="" />
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Event Title *</label>
+                            <input type="text" id="event-title" placeholder="e.g. Fiesta Mass & Procession" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="event-category">
+                                <option value="PARISH FIESTA">PARISH FIESTA</option>
+                                <option value="MARIAN DEVOTION">MARIAN DEVOTION</option>
+                                <option value="YOUTH MINISTRY">YOUTH MINISTRY</option>
+                                <option value="PARISH EVENT">PARISH EVENT</option>
+                                <option value="LITURGICAL CELEBRATION">LITURGICAL CELEBRATION</option>
+                                <option value="CHRISTMAS SEASON">CHRISTMAS SEASON</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Month *</label>
+                            <select id="event-month" required>
+                                <option value="JAN">JAN (January)</option>
+                                <option value="FEB">FEB (February)</option>
+                                <option value="MAR">MAR (March)</option>
+                                <option value="APR">APR (April)</option>
+                                <option value="MAY">MAY (May)</option>
+                                <option value="JUN">JUN (June)</option>
+                                <option value="JUL">JUL (July)</option>
+                                <option value="AUG">AUG (August)</option>
+                                <option value="SEP">SEP (September)</option>
+                                <option value="OCT">OCT (October)</option>
+                                <option value="NOV">NOV (November)</option>
+                                <option value="DEC">DEC (December)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Day (1-31) *</label>
+                            <input type="number" id="event-day" min="1" max="31" placeholder="e.g. 5" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Year</label>
+                            <input type="number" id="event-year" value="2026" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Day of Week</label>
+                            <select id="event-dow">
+                                <option value="SUN">SUN (Sunday)</option>
+                                <option value="MON">MON (Monday)</option>
+                                <option value="TUE">TUE (Tuesday)</option>
+                                <option value="WED">WED (Wednesday)</option>
+                                <option value="THU">THU (Thursday)</option>
+                                <option value="FRI">FRI (Friday)</option>
+                                <option value="SAT">SAT (Saturday)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Time</label>
+                            <input type="text" id="event-time" placeholder="e.g. 8:00 AM - 4:00 PM" />
+                        </div>
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text" id="event-location" placeholder="e.g. Parish Main Sanctuary" />
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Description</label>
+                            <textarea id="event-description" rows="3" placeholder="Brief event description..."></textarea>
+                        </div>
+                    </div>
+                    <div style="margin-top: 16px;">
+                        <button type="submit" class="btn-submit" id="event-submit-btn">Save Event to Database</button>
+                        <button type="button" class="btn-cancel" id="event-cancel-btn" style="display:none;" onclick="resetEventForm()">Cancel Editing</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="admin-card">
+                <h2>Current Events in Database</h2>
+                <div class="data-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Time & Location</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="events-table-body">
+                            <tr><td colspan="6" style="text-align: center; color: #888;">Loading events...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ANNOUNCEMENTS TAB -->
+        <div id="announcements-tab" class="tab-content">
+            <div class="admin-card">
+                <h2 id="ann-form-title">Add New Parish Announcement</h2>
+                <form id="ann-form">
+                    <input type="hidden" id="ann-id" value="" />
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Announcement Title *</label>
+                            <input type="text" id="ann-title" placeholder="e.g. Registration for Confirmation" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <input type="text" id="ann-category" value="PARISH ANNOUNCEMENT" />
+                        </div>
+                        <div class="form-group">
+                            <label>Upload Announcement Image</label>
+                            <input type="file" id="ann-image-file" accept="image/*" />
+                            <input type="hidden" id="ann-existing-image" value="images/mamamarylindogon.jpg" />
+                            <div id="ann-image-preview-container" style="margin-top: 8px; display: none;">
+                                <img id="ann-image-preview" src="" alt="Image Preview" style="max-height: 80px; border-radius: 6px; border: 1px solid #ccc;" />
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Description *</label>
+                            <textarea id="ann-description" rows="3" placeholder="Announcement details..." required></textarea>
+                        </div>
+                    </div>
+                    <div style="margin-top: 16px;">
+                        <button type="submit" class="btn-submit" id="ann-submit-btn">Save Announcement</button>
+                        <button type="button" class="btn-cancel" id="ann-cancel-btn" style="display:none;" onclick="resetAnnForm()">Cancel Editing</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="admin-card">
+                <h2>Current Announcements</h2>
+                <div class="data-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 70px;">Image</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ann-table-body">
+                            <tr><td colspan="5" style="text-align: center; color: #888;">Loading announcements...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast-msg"></div>
+
+    <footer>
+        <p>&copy; 2026 St. Vincent Ferrer Parish, Bonawon, Siaton, Negros Oriental. All rights reserved.</p>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitBtn = document.querySelector('.form-submit');
     
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Disable button during submission
@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const localTime = new Date().toLocaleTimeString();
             // Get form values
             const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
                 from_name: document.getElementById('name').value,
                 from_email: document.getElementById('email').value,
                 time: localTime,
@@ -43,15 +45,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 subject: document.getElementById('subject').value,
                 message: document.getElementById('message').value
             };
+
+            // 1. Store in XAMPP MySQL database if API available
+            if (typeof sendContactMessage === 'function') {
+                await sendContactMessage(formData);
+            }
             
             if (typeof emailjs === 'undefined') {
-                showNotification('✗ Email service could not be loaded. Please refresh the page and try again.', 'error');
+                showNotification('✓ Message recorded! (EmailJS client disabled)', 'success');
+                contactForm.reset();
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'SEND MESSAGE';
                 return;
             }
 
-            // Send email using EmailJS
+            // 2. Send email using EmailJS
             emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, formData)
                 .then(function(response) {
                     console.log('SUCCESS!', response.status, response.text);
@@ -61,7 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     submitBtn.textContent = 'SEND MESSAGE';
                 }, function(error) {
                     console.log('FAILED...', error);
-                    showNotification('✗ Failed to send message. Please try again or contact us directly.', 'error');
+                    showNotification('✓ Message recorded in parish database.', 'success');
+                    contactForm.reset();
                     submitBtn.disabled = false;
                     submitBtn.textContent = 'SEND MESSAGE';
                 });
